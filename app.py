@@ -78,5 +78,9 @@ def analyze_video():
     return jsonify(result), status
 
 
+import os
+
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=False, threaded=True)
+    # Hugging Face Spaces uses port 7860 by default
+    port = int(os.environ.get("PORT", 7860))
+    app.run(host="0.0.0.0", port=port, debug=False, threaded=True)

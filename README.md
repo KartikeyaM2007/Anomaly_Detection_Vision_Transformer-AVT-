@@ -1,3 +1,12 @@
+---
+title: Anomaly Detection Vision Transformer (AVT)
+emoji: 🛡️
+colorFrom: red
+colorTo: slate
+sdk: docker
+pinned: false
+---
+
 # Violence Detection Platform
 
 A Flask-based violence/anomaly detection platform using a trained VideoMAE feature
