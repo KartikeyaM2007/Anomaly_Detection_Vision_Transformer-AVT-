@@ -8,15 +8,30 @@ __pycache__/
 .venv/
 venv/
 env/
+.env
 
 # Large local data/runtime noise
 data/
-artifacts/
-data/UCF-Crime_dataset/venv/
-data/UCF-Crime_dataset/anaconda_projects/
+artifacts/*
+!artifacts/README.md
+!artifacts/checkpoints/
+!artifacts/checkpoints/*.pt
+
+# Model checkpoints (handled by Git LFS in .gitattributes)
+# *.pt (removed to allow LFS tracking)
+*.pth
+*.h5
+*.weights
+*.bin
+*.npy
+
+# OS specific
+.DS_Store
+Thumbs.db
 
 # Notebook/runtime cache files
 **/.ipynb_checkpoints/
 
 # Generated runtime files
 *.log
+

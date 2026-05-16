@@ -1,7 +1,7 @@
 from pathlib import Path
 import sys
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, send_from_directory
 
 
 ROOT = Path(__file__).resolve().parent
@@ -28,6 +28,16 @@ def index():
 @app.get("/favicon.ico")
 def favicon():
     return ("", 204)
+
+
+@app.get("/project-assets/screenshots/<path:filename>")
+def project_screenshot(filename):
+    return send_from_directory(ROOT / "docs" / "screenshots", filename)
+
+
+@app.get("/project-assets/training-notebook/<path:filename>")
+def training_notebook_screenshot(filename):
+    return send_from_directory(ROOT / "docs" / "screenshots" / "training-notebook", filename)
 
 
 @app.get("/api/health")

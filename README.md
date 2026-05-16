@@ -33,15 +33,54 @@ vad_project/
   notebooks/                     # Original training/inference notebooks
 ```
 
-## Run
+### Prerequisites
+
+- Python 3.10+
+- (Optional) CUDA-enabled GPU for faster inference
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/KartikeyaM2007/Anomaly_Detection_Vision_Transformer-AVT-.git
+   cd Anomaly_Detection_Vision_Transformer-AVT-
+   ```
+
+2. Create and activate a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Model Weights
+
+> [!IMPORTANT]
+> The model checkpoint `best_model.pt` (105MB) is not included in the standard git repository due to its size.
+
+To run the platform, you need to place the `best_model.pt` file in the `artifacts/checkpoints/` directory.
+
+**Option 1: Download from Releases**
+- Download `best_model.pt` from the [GitHub Releases](https://github.com/KartikeyaM2007/Anomaly_Detection_Vision_Transformer-AVT-/releases) page.
+- Place it in `artifacts/checkpoints/best_model.pt`.
+
+**Option 2: Git LFS (If enabled)**
+- If the repository uses Git LFS, run:
+  ```bash
+  git lfs pull
+  ```
+
+### Run
 
 ```bash
-pip install -r requirements.txt
 python app.py
 ```
 
 Open:
-
 ```text
 http://127.0.0.1:5000
 ```
