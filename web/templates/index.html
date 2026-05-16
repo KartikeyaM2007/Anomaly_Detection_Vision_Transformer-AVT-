@@ -3,18 +3,28 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Violence Detection Platform</title>
+    <title>AVT | Anomaly Detection Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
+    <div class="ambient-glow"></div>
     <header class="topbar">
-      <div>
-        <h1>Violence Detection Platform</h1>
-        <p>Live threat scoring from camera or uploaded video</p>
+      <div class="brand">
+        <div class="logo-shield">🛡️</div>
+        <div>
+          <h1>AVT <span class="badge">PRO</span></h1>
+          <p>Vision Transformer Anomaly Detection</p>
+        </div>
       </div>
       <div class="topbar-actions">
-        <button id="infoBtn" class="info-button" type="button" aria-haspopup="dialog" aria-controls="infoModal">Info</button>
-        <div class="status" id="runtimeStatus">Checking runtime...</div>
+        <div class="status-pill" id="runtimeStatus">
+          <span class="pulse"></span>
+          <span class="status-text">Initializing...</span>
+        </div>
+        <button id="infoBtn" class="info-button" type="button" aria-haspopup="dialog" aria-controls="infoModal">System Info</button>
       </div>
     </header>
 
@@ -149,33 +159,42 @@
         </div>
 
         <div class="metrics">
-          <div>
-            <span>P(Threat)</span>
+          <div class="metric-card">
+            <span>Threat Probability</span>
             <strong id="threatScore">--</strong>
           </div>
-          <div>
-            <span>Confidence</span>
+          <div class="metric-card">
+            <span>Detection Confidence</span>
             <strong id="confidenceScore">--</strong>
           </div>
-          <div>
-            <span>Feature Window</span>
+          <div class="metric-card">
+            <span>Frame Buffer</span>
             <strong id="featureCount">0</strong>
           </div>
         </div>
       </section>
 
       <aside class="side-panel">
-        <section>
-          <h2>Alert Log</h2>
-          <div id="events" class="events empty">No alerts</div>
+        <section class="alert-section">
+          <h2>Security Log</h2>
+          <div id="events" class="events empty">System monitoring active...</div>
         </section>
 
-        <section>
-          <h2>Runtime</h2>
-          <dl class="runtime">
-            <div><dt>Device</dt><dd id="device">--</dd></div>
-            <div><dt>Checkpoint</dt><dd id="checkpoint">--</dd></div>
-            <div><dt>Threshold</dt><dd id="threshold">--</dd></div>
+        <section class="runtime-section">
+          <h2>Deployment Info</h2>
+          <dl class="runtime-list">
+            <div class="info-row">
+              <dt>Hardware</dt>
+              <dd id="device">--</dd>
+            </div>
+            <div class="info-row">
+              <dt>Core Model</dt>
+              <dd id="checkpoint">--</dd>
+            </div>
+            <div class="info-row">
+              <dt>Sensitivity</dt>
+              <dd id="threshold">--</dd>
+            </div>
           </dl>
         </section>
       </aside>
@@ -183,8 +202,8 @@
       <section class="upload-panel">
         <div class="panel-header">
           <div>
-            <h2>Video Analysis</h2>
-            <p>Score an MP4 and inspect risky intervals</p>
+            <h2>Neural Video Analysis</h2>
+            <p>Temporal feature extraction & anomaly scoring</p>
           </div>
           <form id="uploadForm">
             <input id="videoFile" name="video" type="file" accept="video/*">
@@ -193,48 +212,51 @@
               <input id="thresholdInput" name="threshold" type="range" min="0.02" max="0.50" step="0.01" value="0.06">
               <strong id="thresholdValue">6%</strong>
             </label>
-            <button type="submit">Analyze</button>
+            <button type="submit">Analyze Video</button>
           </form>
         </div>
+        
         <div class="analysis-board">
           <div class="workflow-header">
             <div>
-              <h3>Analysis Workflow</h3>
-              <p id="analysisState">Waiting for upload</p>
+              <h3>Processing Pipeline</h3>
+              <p id="analysisState">System ready for upload</p>
             </div>
             <div class="analysis-timer">
-              <span>Elapsed</span>
+              <span>Time Elapsed</span>
               <strong id="analysisTimer">00:00.0</strong>
             </div>
           </div>
+          
           <div id="analysisSteps" class="analysis-steps">
             <div class="step-node pending" data-step="queued">
               <span class="step-index">1</span>
-              <div><strong>File queued</strong><small>Ready to upload</small></div>
+              <div><strong>Queued</strong></div>
             </div>
             <div class="step-node pending" data-step="uploading">
               <span class="step-index">2</span>
-              <div><strong>Uploading</strong><small>Sending video to runtime</small></div>
+              <div><strong>Uploading</strong></div>
             </div>
             <div class="step-node pending" data-step="frames">
               <span class="step-index">3</span>
-              <div><strong>Frames ready</strong><small>Reading FPS and duration</small></div>
+              <div><strong>Processing</strong></div>
             </div>
             <div class="step-node pending" data-step="features">
               <span class="step-index">4</span>
-              <div><strong>Feature extracting</strong><small>Building VideoMAE clips</small></div>
+              <div><strong>Extracting</strong></div>
             </div>
             <div class="step-node pending" data-step="scoring">
               <span class="step-index">5</span>
-              <div><strong>Scoring</strong><small>Running anomaly model</small></div>
+              <div><strong>Scoring</strong></div>
             </div>
             <div class="step-node pending" data-step="completed">
               <span class="step-index">6</span>
-              <div><strong>Completed</strong><small>Metrics and timeline ready</small></div>
+              <div><strong>Verified</strong></div>
             </div>
           </div>
         </div>
-        <div id="uploadResult" class="upload-result">Select an MP4 to begin</div>
+
+        <div id="uploadResult" class="upload-result">Please select a media file to begin analysis</div>
         <div id="visualSummary" class="visual-summary"></div>
         <div id="analysisMetrics" class="analysis-metrics"></div>
         <div id="frameGallery" class="frame-gallery"></div>

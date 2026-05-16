@@ -80,8 +80,9 @@ async function api(path, options = {}) {
 
 async function loadHealth() {
   const health = await api("/api/health");
-  els.runtimeStatus.textContent = health.ready ? "Runtime ready" : "Runtime not ready";
-  els.runtimeStatus.className = `status ${health.ready ? "ok" : "bad"}`;
+  const statusText = health.ready ? "Runtime Ready" : "Runtime Offline";
+  els.runtimeStatus.querySelector(".status-text").textContent = statusText;
+  els.runtimeStatus.className = `status-pill ${health.ready ? "ok" : "bad"}`;
   els.device.textContent = health.device || "--";
   els.checkpoint.textContent = health.checkpoint_exists ? "best_model.pt found" : "missing";
   els.threshold.textContent = health.threshold;
@@ -175,12 +176,12 @@ function renderLive(data) {
 function renderEvents(events) {
   if (!events.length) {
     els.events.className = "events empty";
-    els.events.textContent = "No alerts";
+    els.events.textContent = "System monitoring active...";
     return;
   }
   els.events.className = "events";
   els.events.innerHTML = events
-    .map((event) => `<div><strong>${event.time}</strong><span>${pct(event.probability)} threat</span></div>`)
+    .map((event) => `<div class="event-item"><strong>${event.time}</strong><span>${pct(event.probability)} alert level</span></div>`)
     .join("");
 }
 
@@ -243,17 +244,17 @@ function failWorkflow(message) {
   renderWorkflow("failed");
 }
 
-function renderWorkflow(mode = "running") {
+function renderWorkflow(mode = "active") {
   const activeIndex = stepOrder.indexOf(activeStep);
   els.analysisSteps.querySelectorAll(".step-node").forEach((node) => {
     const index = stepOrder.indexOf(node.dataset.step);
-    node.classList.remove("pending", "running", "done", "failed");
+    node.classList.remove("pending", "active", "done", "failed");
     if (mode === "failed" && index === activeIndex) {
       node.classList.add("failed");
     } else if (index < activeIndex || mode === "complete") {
       node.classList.add("done");
     } else if (index === activeIndex) {
-      node.classList.add(mode === "complete" ? "done" : "running");
+      node.classList.add(mode === "complete" ? "done" : "active");
     } else {
       node.classList.add("pending");
     }
